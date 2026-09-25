@@ -1014,7 +1014,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   m_transform: {fileID: 0}
   m_health: 100
-  m_movementSpeed: 1
+  m_movementSpeed: 10
   m_attackDamage: 5
 --- !u!50 &590146028
 Rigidbody2D:
