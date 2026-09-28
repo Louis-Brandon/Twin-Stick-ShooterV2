@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 
 [RequireComponent (typeof(PlayerController))]
@@ -18,6 +20,8 @@ public class PlayerAttackController : MonoBehaviour
     }
 
     public m_FireMode m_fireMode;
+
+
     
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -48,9 +52,10 @@ public class PlayerAttackController : MonoBehaviour
             {
                 SpawnBullet(aimDirection);
             }
-            while ((m_fireMode == m_FireMode.FullAuto) && Input.GetKeyDown(KeyCode.Mouse0))
+            if ((m_fireMode == m_FireMode.FullAuto) && Input.GetKeyDown(KeyCode.Mouse0))
             {
                 SpawnBullet(aimDirection);
+                FullAutoBullet();
             }
 
         }
@@ -65,6 +70,10 @@ public class PlayerAttackController : MonoBehaviour
             m_fireMode = m_FireMode.FullAuto;
             Debug.Log("2");
         }
+    }
+    IEnumerator FullAutoBullet()
+    {
+        yield return new WaitForSecondsRealtime(m_attackSpeed);
     }
     void SpawnBullet(Vector3 aimDirection)
     {

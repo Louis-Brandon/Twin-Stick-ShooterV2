@@ -26,8 +26,6 @@ public class BulletController : MonoBehaviour
     }
 
 
-
-
     private void OnEnable()
     {
         StartCoroutine(DestroyBullet());
