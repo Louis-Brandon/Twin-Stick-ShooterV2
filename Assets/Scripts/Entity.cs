@@ -18,7 +18,7 @@ public class Entity : MonoBehaviour
     public void MoveEntity(Vector2 movementValue)
     {
         if (m_transform != null)
-            transform.position += new Vector3(movementValue.x * m_movementSpeed, 0) * Time.deltaTime;
+            transform.position += new Vector3(-1 * movementValue.x * m_movementSpeed, movementValue.y * m_movementSpeed) * Time.deltaTime;
     }
 
     public void ChangeHealth(float changeAmount)
