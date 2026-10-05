@@ -8,14 +8,12 @@ using UnityEngine.UIElements;
 public class PlayerAttackController : MonoBehaviour
 {
     PlayerController m_playerController;
-
+    
     public GameObject m_bulletPrefab;
-
-    public float m_attackSpeed;
 
     public enum m_FireMode
     {
-        SemiAuto,
+        Single,
         FullAuto
     }
 
@@ -33,8 +31,14 @@ public class PlayerAttackController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         PlayerInput();
     }
+    bool m_singleShotFired = false;
+
+    public float m_shotsPerSecond = 5f;
+    float m_delayBetweenShotsPerSecond = 0;
+    float m_fullAutoTimer = 0;
 
     void PlayerInput()
     {
@@ -46,22 +50,45 @@ public class PlayerAttackController : MonoBehaviour
 
         aimDirection = aimDirection.normalized;
 
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKey(KeyCode.Mouse0))
         {
-            if (m_fireMode == m_FireMode.SemiAuto )
+            if (m_fireMode == m_FireMode.Single && !m_singleShotFired)
             {
+                m_delayBetweenShotsPerSecond = 1 / m_shotsPerSecond;
+
+                m_fullAutoTimer += Time.deltaTime;
                 SpawnBullet(aimDirection);
+                m_singleShotFired = true;
+
+                
             }
-            if ((m_fireMode == m_FireMode.FullAuto) && Input.GetKeyDown(KeyCode.Mouse0))
+            if (m_fireMode == m_FireMode.FullAuto)
             {
-                FullAutoBullet(m_attackSpeed, aimDirection);
+                m_delayBetweenShotsPerSecond = 1 / m_shotsPerSecond;
+
+                m_fullAutoTimer += Time.deltaTime;
+
+                if (m_fullAutoTimer >= m_delayBetweenShotsPerSecond) 
+                {
+                    m_fullAutoTimer = m_fullAutoTimer * 0.5f;
+                    SpawnBullet(aimDirection);
+                }
+
+                //FireFullAuto(m_attackSpeed, aimDirection);
             }
 
+        }
+        //When mouse key is released - Lets reset our gun!
+        else if (Input.GetKeyUp(KeyCode.Mouse0)) 
+        {
+            //false because we are resetting the bool for the next semi auto single shot
+            m_singleShotFired = false;
+            m_fullAutoTimer = 0;
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            m_fireMode = m_FireMode.SemiAuto;
+            m_fireMode = m_FireMode.Single;
             Debug.Log("1");
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
@@ -70,11 +97,7 @@ public class PlayerAttackController : MonoBehaviour
             Debug.Log("2");
         }
     }
-    IEnumerator FullAutoBullet(float m_attackSpeed,Vector3 aimDirection)
-    {
-        yield return new WaitForSecondsRealtime(m_attackSpeed);
-        SpawnBullet(aimDirection);
-    }
+
     void SpawnBullet(Vector3 aimDirection)
     {
         GameObject bullet = Instantiate(m_bulletPrefab, transform.position, Quaternion.identity);
