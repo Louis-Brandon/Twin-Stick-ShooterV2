@@ -54,8 +54,7 @@ public class PlayerAttackController : MonoBehaviour
             }
             if ((m_fireMode == m_FireMode.FullAuto) && Input.GetKeyDown(KeyCode.Mouse0))
             {
-                SpawnBullet(aimDirection);
-                FullAutoBullet();
+                FullAutoBullet(m_attackSpeed, aimDirection);
             }
 
         }
@@ -71,9 +70,10 @@ public class PlayerAttackController : MonoBehaviour
             Debug.Log("2");
         }
     }
-    IEnumerator FullAutoBullet()
+    IEnumerator FullAutoBullet(float m_attackSpeed,Vector3 aimDirection)
     {
         yield return new WaitForSecondsRealtime(m_attackSpeed);
+        SpawnBullet(aimDirection);
     }
     void SpawnBullet(Vector3 aimDirection)
     {
