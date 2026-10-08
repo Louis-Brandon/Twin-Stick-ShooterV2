@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class NPCManager : MonoBehaviour
 {
@@ -10,7 +10,7 @@ public class NPCManager : MonoBehaviour
     public int m_maxNPCAmount;
     public List<NPCController> m_NPCList = new List<NPCController>();
 
-    public float m_NPCSpeed = 5f;
+    public float m_NPCSpeed = 1f;
     public Vector2 m_playerLocation;
 
     public void ManageNPC()
@@ -24,6 +24,7 @@ public class NPCManager : MonoBehaviour
             nC.m_targetMoveLocation = m_playerLocation;
         }
     }
+    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -39,7 +40,7 @@ public class NPCManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        ManageNPC();
     }
 
     public void SpawnNPC()

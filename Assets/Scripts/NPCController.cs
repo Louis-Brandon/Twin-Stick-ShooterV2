@@ -46,8 +46,8 @@ public class NPCController : Entity
     // Update is called once per frame
     void Update()
     {
-        Vector2 targetMovementDirection = m_targetMoveLocation - new Vector2(transform.position.x, transform.position.y);
-
+        Vector2 targetMovementDirection = new Vector2(transform.position.x - m_targetMoveLocation.x, m_targetMoveLocation.y - transform.position.y);
+        
         MoveEntity(Vector2.ClampMagnitude(targetMovementDirection, 1));
     }
 
