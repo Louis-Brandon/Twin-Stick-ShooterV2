@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 
@@ -10,6 +11,8 @@ public class PlayerAttackController : MonoBehaviour
     PlayerController m_playerController;
     
     public GameObject m_bulletPrefab;
+
+    Vector3 aimPosition;
 
     public enum m_FireMode
     {
@@ -40,29 +43,22 @@ public class PlayerAttackController : MonoBehaviour
     float m_delayBetweenShotsPerSecond = 0;
     float m_fullAutoTimer = 0;
 
+    public void OnAttack(InputValue value)
+    {
+        aimPosition = value.Get<Vector2>();
+    }
+
     void PlayerInput()
     {
-        Vector3 aimPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
         aimPosition.z = 0;
 
-        Vector3 aimDirection = aimPosition - transform.position;
+        Vector3 aimDirection = aimPosition.normalized;
 
-        aimDirection = aimDirection.normalized;
-
-        if (Input.GetKey(KeyCode.Mouse0))
+        if (aimPosition != Vector3.zero)
         {
-            if (m_fireMode == m_FireMode.Single && !m_singleShotFired)
-            {
-                m_delayBetweenShotsPerSecond = 1 / m_shotsPerSecond;
-
-                m_fullAutoTimer += Time.deltaTime;
-                SpawnBullet(aimDirection);
-                m_singleShotFired = true;
-
-                
-            }
-            if (m_fireMode == m_FireMode.FullAuto)
+            SpawnBullet(aimDirection);
+        }
+        /*if (m_fireMode == m_FireMode.FullAuto)
             {
                 m_delayBetweenShotsPerSecond = 1 / m_shotsPerSecond;
 
@@ -95,7 +91,7 @@ public class PlayerAttackController : MonoBehaviour
         {
             m_fireMode = m_FireMode.FullAuto;
             Debug.Log("2");
-        }
+        }*/
     }
 
     void SpawnBullet(Vector3 aimDirection)

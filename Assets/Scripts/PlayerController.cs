@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : Entity
 {
@@ -12,7 +13,7 @@ public class PlayerController : Entity
 
     void PlayerInput()
     {
-        if (Input.GetKey(KeyCode.W))
+       /* if (Input.GetKey(KeyCode.W))
         {
             m_directionInput = new Vector2(m_directionInput.x, 1);
             Debug.Log("w");
@@ -42,11 +43,19 @@ public class PlayerController : Entity
         {
             m_directionInput = new Vector2(0, m_directionInput.y);
         }
+       */
+
+
+    }
+
+    public void OnMove(InputValue value)
+    {
+        m_directionInput = value.Get<Vector2>();
     }
 
     public override void OnDeath()
     {
-        
+        Destroy(gameObject);
     }
 
 

@@ -19,7 +19,7 @@ public class NPCController : Entity
         {
             m_damageCooldown -= Time.deltaTime;
             
-            if (m_damageCooldown > 0)
+            if (m_damageCooldown <= 0)
             {
                 collision.rigidbody.GetComponent<PlayerController>().ChangeHealth(-m_attackDamage);
 

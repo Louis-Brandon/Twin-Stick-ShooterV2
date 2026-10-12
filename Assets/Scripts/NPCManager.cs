@@ -81,13 +81,14 @@ public class NPCManager : MonoBehaviour
                     break;
 
                 case 1:
-                    // top side spawn
-                    spawnPosition = new Vector2(Random.Range(m_horizontalBounds.x, m_horizontalBounds.y), m_verticalBounds.y);
-                    break;
-                
-                case 2:
                     // left side spawn
                     spawnPosition = new Vector2(m_horizontalBounds.x, Random.Range(m_verticalBounds.x, m_verticalBounds.y));
+                    break;
+
+                case 2:
+                    
+                    // top side spawn
+                    spawnPosition = new Vector2(Random.Range(m_horizontalBounds.x, m_horizontalBounds.y), m_verticalBounds.y);
                     break;
 
                 case 3:
@@ -95,8 +96,9 @@ public class NPCManager : MonoBehaviour
                     spawnPosition = new Vector2(Random.Range(m_horizontalBounds.x, m_horizontalBounds.y), m_verticalBounds.x);
                     break;
 
-            }
 
+            }
+            temp.transform.position = spawnPosition;
         }
     }
 
