@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : Entity
 {
@@ -57,7 +58,7 @@ public class PlayerController : Entity
 
     public override void OnDeath()
     {
-        Destroy(gameObject);
+        SceneManager.LoadScene("StartScene");
     }
 
 
