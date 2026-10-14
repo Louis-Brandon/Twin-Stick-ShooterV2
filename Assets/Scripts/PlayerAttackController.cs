@@ -56,7 +56,17 @@ public class PlayerAttackController : MonoBehaviour
 
         if (aimPosition != Vector3.zero)
         {
-            SpawnBullet(aimDirection);
+            {
+                m_delayBetweenShotsPerSecond = 1 / m_shotsPerSecond;
+
+                m_fullAutoTimer += Time.deltaTime;
+
+                if (m_fullAutoTimer >= m_delayBetweenShotsPerSecond)
+                {
+                    m_fullAutoTimer = m_fullAutoTimer * 0.5f;
+                    SpawnBullet(aimDirection);
+                }
+            }
         }
         /*if (m_fireMode == m_FireMode.FullAuto)
             {
@@ -96,7 +106,9 @@ public class PlayerAttackController : MonoBehaviour
 
     void SpawnBullet(Vector3 aimDirection)
     {
-        GameObject bullet = Instantiate(m_bulletPrefab, transform.position, Quaternion.identity);
+        Vector2 spawnPosition = new Vector2(transform.position.x+aimDirection.x, transform.position.y+aimDirection.y);
+
+        GameObject bullet = Instantiate(m_bulletPrefab, spawnPosition, Quaternion.identity);
         var bC = bullet.GetComponent<BulletController>();
         bC.m_direction = aimDirection;
         bC.m_damage = m_playerController.m_attackDamage;

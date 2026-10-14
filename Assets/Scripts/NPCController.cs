@@ -27,13 +27,26 @@ public class NPCController : Entity
             }
         }
     }
-
+    
+    public int difficultyInvrs = 1;
+    
     public override void OnDeath()
     {
         Destroy(gameObject);
 
         NPCManager.instance.m_NPCList.Remove(this);
+        //int difficultyIncrease = Random.Range(0, difficultyInvrs);
+        Vector2 spawnPosition = Vector2.zero;
 
+        /*switch (difficultyIncrease)
+        {
+            case 0:
+                NPCManager.DifficultyIncrease();
+                break;
+
+            default:
+                break;
+        }*/
         NPCManager.instance.SpawnNPC();
     }
     

@@ -37,12 +37,12 @@ public class NPCManager : MonoBehaviour
 
         foreach (NPCController nC in m_NPCList)
         {
-            nC.m_movementSpeed = m_NPCSpeed;
+            nC.m_movementSpeed = m_NPCSpeed + Random.Range(-.2f, .5f);
 
             nC.m_targetMoveLocation = m_playerLocation;
         }
     }
-    
+ 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -61,6 +61,7 @@ public class NPCManager : MonoBehaviour
         ManageNPC();
     }
 
+
     public void SpawnNPC()
     {
         GetScreenBounds();
@@ -70,7 +71,7 @@ public class NPCManager : MonoBehaviour
             GameObject temp = Instantiate(m_NPCPrefab);
             m_NPCList.Add(temp.GetComponent<NPCController>());
 
-            int spawnSide = Random.Range(0, 4);
+            int spawnSide = Random.Range(0, 5);
             Vector2 spawnPosition = Vector2.zero;
 
             switch (spawnSide)
@@ -94,6 +95,11 @@ public class NPCManager : MonoBehaviour
                 case 3:
                     // bottom side spawn
                     spawnPosition = new Vector2(Random.Range(m_horizontalBounds.x, m_horizontalBounds.y), m_verticalBounds.x);
+                    break;
+                    
+                case 4:
+                    m_maxNPCAmount += 1;
+                    spawnPosition = new Vector2(Random.Range(m_horizontalBounds.x, m_horizontalBounds.y), m_verticalBounds.y);
                     break;
 
 
