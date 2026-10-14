@@ -50,7 +50,9 @@ public class PlayerController : Entity
 
     public void OnMove(InputValue value)
     {
-        m_directionInput = value.Get<Vector2>();
+        Vector2 rawInput = value.Get<Vector2>();
+
+        m_directionInput = new Vector2(rawInput.x * -1, rawInput.y);
     }
 
     public override void OnDeath()
@@ -62,7 +64,7 @@ public class PlayerController : Entity
     // Update is called once per frame
     void Update()
     {
-        PlayerInput();
+        //PlayerInput();
 
         MoveEntity( Vector2.ClampMagnitude(m_directionInput, 1));
     }
